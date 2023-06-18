@@ -1,0 +1,5 @@
+# add plugins directory
+/zsh/plugins/*
+
+# Notes
+NOTES.md

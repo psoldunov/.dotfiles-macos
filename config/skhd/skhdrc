@@ -1,0 +1,133 @@
+#!/usr/bin/env sh
+
+# reload config
+hyper - r: fish -c 'restartWindowManager'
+
+# destroy spaces
+hyper - c: fish -c 'destroyEmptySpaces'
+
+# rotate space
+hyper - x: yabai -m space --rotate 90
+
+# toggle window fullscreen
+# meh - f: yabai -m window --toggle native-fullscreen
+
+# launch terminal
+meh - return: open -a Warp
+
+# move windows
+hyper - up: yabai -m window --swap north
+hyper - down: yabai -m window --swap south
+hyper - left: yabai -m window --swap west
+hyper - right: yabai -m window --swap east
+
+# focus windows
+meh - up: yabai -m window --focus north
+meh - down: yabai -m window --focus south
+meh - left: yabai -m window --focus west
+meh - right: yabai -m window --focus east
+
+# focus spaces
+meh - 1: fish -c 'createSpace 1'
+meh - 2: fish -c 'createSpace 2'
+meh - 3: fish -c 'createSpace 3'
+meh - 4: fish -c 'createSpace 4'
+meh - 5: fish -c 'createSpace 5'
+meh - 6: fish -c 'createSpace 6'
+meh - 7: fish -c 'createSpace 7'
+meh - 8: fish -c 'createSpace 8'
+meh - 9: fish -c 'createSpace 9'
+meh - 0: fish -c 'createSpace 10'
+
+# move windows to spaces
+hyper - 1: fish -c 'sendToSpace 1'
+hyper - 2: fish -c 'sendToSpace 2'
+hyper - 3: fish -c 'sendToSpace 3'
+hyper - 4: fish -c 'sendToSpace 4'
+hyper - 5: fish -c 'sendToSpace 5'
+hyper - 6: fish -c 'sendToSpace 6'
+hyper - 7: fish -c 'sendToSpace 7'
+hyper - 8: fish -c 'sendToSpace 8'
+hyper - 9: fish -c 'sendToSpace 9'
+hyper - 0: fish -c 'sendToSpace 10'
+
+# toggle window float
+hyper - space: yabai -m window --toggle float
+
+# split mode
+:: split : fish -c 'yabaiNotification "Split Mode Enabled" "Press Escape to exit"'
+:: desktop : fish -c 'yabaiNotification "Desktop Mode Enabled" "Press Escape to exit"'
+:: resize: fish -c 'yabaiNotification "Resize Mode Enabled" "Press Escape to exit"'
+:: warp : fish -c 'yabaiNotification "Warp Mode Enabled" "Press Escape to exit"'
+:: open : fish -c 'yabaiNotification "Open Mode Enabled" "Press Escape to exit"'
+:: float : fish -c 'yabaiNotification "Float Mode Enabled" "Press Escape to exit"'
+:: default : fish -c 'yabaiNotification "Normal Mode Enabled" "All other modes are disabled"'
+
+meh - s; split
+meh - d; desktop
+meh - r; resize
+meh - f; float
+meh - w; warp
+meh - o; open
+
+# split mode
+split < up: yabai -m window --insert north
+split < down: yabai -m window --insert south
+split < left: yabai -m window --insert west
+split < right: yabai -m window --insert east
+split < s: yabai -m window --insert stack
+split < t: yabai -m window --toggle split
+split < x: yabai -m space --mirror x-axis
+split < y: yabai -m space --mirror y-axis
+split < escape; default
+
+# desktop mode
+desktop < w: fish -c "startWorkMode"
+desktop < c: fish -c "boundaryCommsDesktop"
+desktop < escape; default
+
+# resize mode
+resize < up: yabai -m window --resize top:0:-10
+resize < down: yabai -m window --resize bottom:0:10
+resize < left: yabai -m window --resize left:-10:0
+resize < right: yabai -m window --resize right:10:0
+resize < shift - up: yabai -m window --resize bottom:0:-10
+resize < shift - down: yabai -m window --resize top:0:10
+resize < shift - left: yabai -m window --resize right:-10:0
+resize < shift - right: yabai -m window --resize left:10:0
+resize < b: yabai -m space --balance
+resize < x: yabai -m space --balance x-axis
+resize < y: yabai -m space --balance y-axis
+resize < escape; default
+
+# open mode
+open < t: fish -c 'open -a Warp'
+open < b: fish -c 'open -n -a Brave\ Browser'
+open < f: fish -c 'open -n -a Finder'
+open < d: fish -c 'open -n -a Figma'
+open < e: fish -c 'open -a Visual\ Studio\ Code'
+open < s: fish -c 'open -a Slack'
+open < escape; default
+
+# float mode
+float < up: yabai -m window --grid 2:2:0:0:2:1
+float < down: yabai -m window --grid 2:2:0:1:2:1
+float < left: yabai -m window --grid 2:2:0:0:1:2
+float < right: yabai -m window --grid 2:2:1:0:1:2
+float < u: yabai -m window --grid 2:2:0:0:1:1
+float < i: yabai -m window --grid 2:2:1:0:1:1
+float < j: yabai -m window --grid 2:2:0:1:1:1
+float < k: yabai -m window --grid 2:2:1:1:1:1
+float < f: yabai -m window --grid 2:2:0:0:2:2
+float < o: yabai -m window --grid 8:10:1:1:8:6
+float < escape; default
+
+# warp mode
+warp < up: yabai -m window --warp north
+warp < down: yabai -m window --warp south
+warp < left: yabai -m window --warp west
+warp < right: yabai -m window --warp east
+warp < escape; default
+
+# query windows
+hyper - q: fish -c 'yabai -m query --windows --window | pbcopy && yabaiNotification "Window ID" "Window ID copied to clipboard"'

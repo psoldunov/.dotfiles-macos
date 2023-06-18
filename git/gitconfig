@@ -1,0 +1,10 @@
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[user]
+	name = Philipp Soldunov
+	email = 69530789+psoldunov@users.noreply.github.com
+[core]
+	excludesfile = /Users/psoldunov/.gitignore_global
